@@ -1,0 +1,130 @@
+/* Rotating dotted ring (SVG) */
+.ring-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* Responsive outer size */
+  width: clamp(2.4rem, 7.2vw, 3.2rem);
+  height: clamp(2.4rem, 7.2vw, 3.2rem);
+}
+.ring-wrap .ring-btn {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68%;
+  height: 68%;
+  border-radius: 9999px;
+  transition: transform 200ms ease;
+}
+.ring-wrap .ring-btn:hover {
+  transform: translateZ(0) scale(1.03);
+}
+.ring-wrap .ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: #ff534e; /* brand color via currentColor fallback */
+}
+
+/* Spin utility */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slower {
+  animation: spin 7.5s linear infinite;
+}
+
+/* Small-screen marquee for About */
+@keyframes about-scroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  } /* half track because content is duplicated */
+}
+.about-marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  overflow: hidden;
+}
+.about-marquee-track {
+  display: inline-flex;
+  align-items: stretch;
+  width: max-content;
+  will-change: transform;
+  animation: about-scroll-x 32s linear infinite;
+  padding-right: 0.5rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .about-marquee-mask:hover .about-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Floating cards: gentle spring-like bob */
+@keyframes about-float-y {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.about-float {
+  will-change: transform;
+  animation-name: about-float-y;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(
+    0.21,
+    0.98,
+    0.6,
+    1
+  ); /* springy ease */
+}
+.float-1 {
+  animation-duration: 7.5s;
+  animation-delay: 0s;
+}
+.float-2 {
+  animation-duration: 6.8s;
+  animation-delay: 0.5s;
+}
+.float-3 {
+  animation-duration: 7.8s;
+  animation-delay: 0.2s;
+}
+.float-4 {
+  animation-duration: 6.6s;
+  animation-delay: 0.8s;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slower,
+  .about-marquee-track,
+  .about-float {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

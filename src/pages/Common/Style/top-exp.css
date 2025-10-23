@@ -1,0 +1,122 @@
+/* 3-per-row on large screens; bigger squares overall */
+.top-exp-grid {
+  display: grid;
+  gap: clamp(14px, 2vw, 28px);
+  grid-template-columns: 1fr; /* mobile: 1 column */
+}
+
+@media (min-width: 640px) {
+  .top-exp-grid {
+    grid-template-columns: repeat(2, 1fr); /* tablet: 2 columns */
+  }
+}
+@media (min-width: 1024px) {
+  .top-exp-grid {
+    grid-template-columns: repeat(3, 1fr); /* desktop: 3 columns */
+  }
+}
+
+/* Ensure square aspect */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Each card defines a larger ring size and padding to avoid overlap */
+.top-exp-card {
+  /* Increase arrow circle size and reserve content space for it */
+  --ring-size: clamp(3.25rem, 9vw, 4rem);
+}
+.card-content {
+  /* Ensure text and price area never goes under the arrow circle */
+  padding-right: calc(var(--ring-size) + 0.75rem);
+  min-width: 0;
+}
+
+/* Rotating dotted ring (bigger) */
+.ring-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--ring-size, 3.5rem);
+  height: var(--ring-size, 3.5rem);
+}
+.ring-wrap .ring-btn {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68%;
+  height: 68%;
+  border-radius: 9999px;
+  transition: transform 200ms ease;
+  will-change: transform;
+}
+.ring-wrap .ring-btn:hover {
+  transform: translateZ(0) scale(1.05);
+}
+.ring-wrap .ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slower {
+  animation: spin 7s linear infinite;
+}
+
+/* Price stripe: bold yellow band; never overflows; wraps gracefully */
+.price-stripe {
+  display: inline-flex;
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 2px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-image: repeating-linear-gradient(
+    135deg,
+    #fde047 0 12px,
+    /* amber-300 */ #facc15 12px 24px /* amber-400 */
+  );
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  /* keep clear of the arrow circle on very narrow cards */
+  margin-right: calc(var(--ring-size, 3.5rem) + 0.5rem);
+}
+
+.price-label {
+  font-size: 11px;
+  color: rgba(15, 23, 42, 0.92);
+}
+.price-current {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: clamp(0.95rem, 1.6vw, 1.125rem);
+}
+.price-old {
+  color: rgba(15, 23, 42, 0.7);
+  text-decoration: line-through;
+  font-size: 11px;
+}
+
+/* Accessibility: honor reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slower {
+    animation-duration: 0s !important;
+  }
+}
+
+/* Optional: soften large rounded corners on tiny screens */
+@media (max-width: 380px) {
+  .rounded-\[22px\] {
+    border-radius: 18px;
+  }
+}

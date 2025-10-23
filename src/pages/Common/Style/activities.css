@@ -1,0 +1,95 @@
+/* ===========================
+   Rotating dotted ring styles
+   =========================== */
+
+/* Wrapper keeps everything responsive and centered */
+.ring-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* Responsive size for the whole control (outer ring) */
+  width: clamp(2.5rem, 7.5vw, 3.25rem);
+  height: clamp(2.5rem, 7.5vw, 3.25rem);
+}
+
+/* The clickable button stays smaller than the ring so the dots sit outside */
+.ring-wrap .ring-btn {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Button is 68% of the ring size for a nice halo */
+  width: 68%;
+  height: 68%;
+  border-radius: 9999px;
+  transition: transform 200ms ease;
+}
+
+/* Keep the SVG on its own layer and non-interactive */
+.ring-wrap .ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Inherit brand color from parent via currentColor */
+  color: #f37b2c;
+  filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+}
+
+/* Optional: a subtle hover lift for the button */
+.ring-wrap .ring-btn:hover {
+  transform: translateZ(0) scale(1.03);
+}
+
+/* Slower infinite spin for dotted outer ring (existing keyframes reused) */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slower {
+  animation: spin 6s linear infinite;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slower {
+    animation-duration: 0s;
+  }
+}
+
+/* ===========================
+   Activities marquee styles
+   =========================== */
+
+/* Infinite marquee */
+.activities-marquee-mask {
+  overflow: hidden;
+}
+
+.activities-marquee-track {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  will-change: transform;
+  animation: activities-marquee 40s linear infinite;
+}
+
+/* Adjust duration for your content length/density as needed */
+@keyframes activities-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Move exactly half the track since LOOP = items * 2 */
+    transform: translateX(-50%);
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .activities-marquee-track {
+    animation-duration: 0s;
+  }
+}
