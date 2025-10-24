@@ -27,7 +27,7 @@ import R1c1 from "./pages/Tours/R1c1";
 import Forget from "./Users/Forget";
 import Login from "./Users/Login";
 import Reset from "./Users/Reset";
-import Signup from "./Users/SignUp";
+import Signup from "./Users/Signup";
 
 // Create a wrapper so we can use useLocation()
 function AppWrapper() {
