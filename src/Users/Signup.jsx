@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
  * - rotateIntervalMs?: number                 // default 5000
  * - onSignup?: (payload) => Promise<void> | void
  */
-export default function SignUp({
+export default function Signup({
   themeColor = "#F17232",
   slides,
   rotateIntervalMs = 5000,
